@@ -12,14 +12,6 @@ Described in [A graph-convolutional neural network model for the prediction of c
 
 _note: there may be some issues with relative imports when using Python 2 now; this should be easy to resolve by removing the periods preceding package names_
 
-# Instructions 
 
-
-### Looking at predictions from the test set
-```cd``` into the ```website``` folder and start the Django app using ```python manage.py runserver```. Go to ```http://localhost:8000/visualize``` in a browser to use the interactive visualization tool
-
-### Using the trained models
-You can use the fully trained model to predict outcomes by following the example at the end of ```rexgen_direct/rank_diff_wln/directcandranker.py```
-
-### Retraining the models
-Look at the two text files in ```rexgen_direct/core_wln_global/notes.txt``` and ```rexgen_direct/rank_diff_wln/notes.txt``` for the exact commands used for training, validation, and testing. You will have to unarchive the data files after cloning this repo.
+# Using the trained models
+You can use the fully trained model to predict outcomes by following the example at the end of ```rexgen_direct/rank_diff_wln/directcandranker.py [insert reaction string here]```
