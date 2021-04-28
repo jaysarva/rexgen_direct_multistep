@@ -1,6 +1,6 @@
 import tensorflow as tf
-from mol_graph_direct_useScores import max_nb
-from nn import *
+from rexgen_direct.rank_diff_wln.mol_graph_direct_useScores import max_nb
+from rexgen_direct.rank_diff_wln.nn import *
 
 def rcnn_wl_last(graph_inputs, hidden_size, depth, training=True):
     input_atom, input_bond, atom_graph, bond_graph, num_nbs = graph_inputs
