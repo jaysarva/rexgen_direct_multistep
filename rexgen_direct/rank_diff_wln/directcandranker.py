@@ -160,7 +160,7 @@ if __name__ == '__main__':
     if len(sys.argv) < 2:
         print('Using example reaction')
         #react = '[CH3:26][c:27]1[cH:28][cH:29][cH:30][cH:31][cH:32]1.[Cl:18][C:19](=[O:20])[O:21][C:22]([Cl:23])([Cl:24])[Cl:25].[NH2:1][c:2]1[cH:3][cH:4][c:5]([Br:17])[c:6]2[c:10]1[O:9][C:8]([CH3:11])([C:12](=[O:13])[O:14][CH2:15][CH3:16])[CH2:7]2'
-        react = ''
+        react = 'CC(C)CCCBr.C#[C-]<[O-][O+]=O.[OH3+]'
         print(react)
     else:
         react = str(sys.argv[1])
@@ -177,14 +177,15 @@ if __name__ == '__main__':
         for prod in outcome["smiles"]:
             react_str += prod
             react_str += "."
-        react_str = react_str[:len(react_str) - 1]
+        react_str += react_split[0]
         react_dict = {"react": react_str, "prob": outcome["prob"]}
         next_reacts.append(react_dict)
 
     all_two_steps = []
+    # iterates through all possible outcomes of the first reaction
     for rct in next_reacts:
-
-        (r, bp, bs, cas) = directcorefinder.predict(rct["smiles"])
+        #print(rct)
+        (r, bp, bs, cas) = directcorefinder.predict(rct["react"])
         dc = DirectCandRanker()
         dc.load_model()
         outcomes = dc.predict(r, bp, bs)
@@ -197,8 +198,8 @@ if __name__ == '__main__':
     all_two_steps.sort(key=lambda x: x[1]["prob"])
 
     for outcome in all_two_steps:
-        print(all_two_steps[0])
-        print(all_two_steps[1])
+        print(outcome[0])
+        print(outcome[1])
         print()
 
     #(react, bond_preds, bond_scores, cur_att_score) = directcorefinder.predict(react)
