@@ -11,6 +11,10 @@ from rdkit import Chem
 import os
 import numpy as np 
 
+from pyscf import gto,scf
+import openbabel
+
+
 '''
 This module defines the DirectCandRanker class, which is for deploying the candidate ranking model
 '''
@@ -189,6 +193,7 @@ if __name__ == '__main__':
         dc = DirectCandRanker()
         dc.load_model()
         outcomes = dc.predict(r, bp, bs)
+
         for outcome in outcomes:
             outcome["prob"] *= rct["prob"]
             new_two_step = []
@@ -200,6 +205,24 @@ if __name__ == '__main__':
     for outcome in all_two_steps:
         print(outcome[0])
         print(outcome[1])
+        obConversion = openbabel.OBConversion()
+        obConversion.SetInAndOutFormats("smi", "xyz")
+
+        mol = openbabel.OBMol()
+        obConversion.ReadString(mol, outcome[1])
+
+        outXYZ = obConversion.WriteString(mol)
+        #### maybe need to remove first number from outXYZ because it details number of atoms in molecule??
+
+        mol = gto.M(
+            atom = outXYZ,
+            basis = 'sto-3g',
+        )
+
+
+        rhf = scf.RHF(mol)
+        e = rhf_h2o.kernel()
+
         print()
 
     #(react, bond_preds, bond_scores, cur_att_score) = directcorefinder.predict(react)
